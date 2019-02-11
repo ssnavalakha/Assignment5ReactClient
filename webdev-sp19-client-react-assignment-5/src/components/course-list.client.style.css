@@ -1,0 +1,15 @@
+.bottom-button{
+    position:fixed;
+    bottom:5px;
+    right:15px;
+    margin:0;
+    padding:5px 3px;
+}
+
+body {
+    background-color: #e9ecef;
+}
+.table tbody tr{
+    background-color:white;
+}
+
