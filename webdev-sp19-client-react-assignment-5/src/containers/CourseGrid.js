@@ -10,7 +10,9 @@ import UserService from "../services/UserService";
 class CourseGrid extends React.Component {
     constructor(props)
     {
-        super(props)
+        super(props);
+        this.facultyId = parseInt(props.match.params.id);
+        this.props.getcourses();
     }
     userService=new UserService(this.props);
     render(){
@@ -34,7 +36,7 @@ class CourseGrid extends React.Component {
                         </div>
                     </th>
                     <th>
-                        <Link to={`/table`}><i className="text-dark fa fa-list-ul"/></Link>
+                        <Link to={"/table/"+this.facultyId}><i className="text-dark fa fa-list-ul"/></Link>
                     </th>
                     </thead>
                 </table>

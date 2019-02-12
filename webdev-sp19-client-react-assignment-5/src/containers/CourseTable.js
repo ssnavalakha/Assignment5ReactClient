@@ -10,6 +10,8 @@ class CourseTable extends React.Component{
     constructor(props)
     {
         super(props)
+        this.facultyId = parseInt(props.match.params.id);
+        this.props.getcourses();
     }
     userService=new UserService(this.props);
     render(){
@@ -30,7 +32,7 @@ class CourseTable extends React.Component{
                             <th>Title</th>
                             <th>Owned by</th>
                             <th>Last modified</th>
-                            <th>&nbsp; <Link to={`/`}><i className="text-dark float-right fa fa-th"/></Link></th>
+                            <th>&nbsp; <Link to={"/coursegrid/"+this.facultyId}><i className="text-dark float-right fa fa-th"/></Link></th>
                         </tr>
                         </thead>
                         <tbody>

@@ -2,6 +2,7 @@ import courses from './courses.json'
 class CourseService {
   constructor() {
     this.courses = courses;
+    this.COURSE_API_URL ='http://localhost:8080/';
     var widgets=[];
     for (let i=0; i<this.courses.length; i++)
     {
@@ -66,29 +67,39 @@ class CourseService {
         topic => topic.id !== deletetopic.id
     );
     return topics
-  }
+  };
 
   addCourse = course => {
-    if(course === null) {
-      course = {
-        id: (new Date()).getTime(),
-        title: 'New Course',
-        modules: []
-      }
-    }
-    this.courses.push(course);
-    return this.courses
+    return fetch(this.COURSE_API_URL+"api/courses", {
+      body: JSON.stringify(course),
+      headers: {
+        'Content-Type': 'application/json' },
+      credentials: 'include',
+      method: 'POST'
+    }).then((res) => res.json())
+
   };
   findCourseById = courseId =>
-    this.courses = this.courses.find(
-      course => course.id === courseId
-    );
+  {
+    return fetch(this.COURSE_API_URL+"api/courses/"+courseId)
+        .then(response =>
+        response.json());
+
+  };
   findAllCourses = () =>
-    this.courses;
+    {
+      return fetch(this.COURSE_API_URL+"api/courses",{
+        credentials: 'include'
+      }).then(response =>
+              response.json());
+
+    };
   deleteCourse = deleteCourse =>
-    this.courses = this.courses.filter(
-      course => course.id !== deleteCourse.id
-    );
+    {
+      return fetch(this.COURSE_API_URL+"api/courses/"+deleteCourse.id,{
+        method:'DELETE'
+      }).then((res) => res.json());
+    };
 
   findWidgets= topicId =>{
     return this.widgets.filter(wid=>wid.topicId===topicId)

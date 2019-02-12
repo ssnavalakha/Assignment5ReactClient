@@ -6,18 +6,26 @@ class Profile extends React.Component{
     {
         super(props);
         this.userService=new UserService(props);
-        this.user="";
+        this.state={
+            user:"",
+            username:"",
+            firstName:"",
+            lastName:"",
+            phoneNumber:"",
+            displayBlock:false,
+
+        }
         this.userService.profile()
             .then(user1=>{
-                this.user=user1;
+                this.setState({
+                    user:user1,
+                    username:user1.username,
+                    firstName:user1.firstName,
+                    lastName:user1.lastName,
+                    phoneNumber:user1.phoneNumber,
+                })
             });
-        this.state={
-            username:this.user.username,
-            firstName:this.user.firstName,
-            lastName:this.user.lastName,
-            phoneNumber:this.user.phoneNumber,
-            displayBlock:false
-        }
+
     }
     usernameTitleChanged = (event) => {
         this.setState(
@@ -48,7 +56,7 @@ class Profile extends React.Component{
             <div className="container-fluid">
                 <h1>Profile</h1>
                 <div id="success-alert" className="alert alert-success" style={this.state.displayBlock?
-                    "display: none":"display: block"}>
+                    {"display": "block"}:{"display": "none"}}>
                     Profile successfully saved.
                 </div>
                 <form>
@@ -61,8 +69,10 @@ class Profile extends React.Component{
                             <input className="form-control"
                                    placeholder="alice"
                                    id="username-profile"
+                                   value={this.state.user.username}
+                                   onChange={this.usernameTitleChanged}
                                    disabled>
-                                {this.user.username}
+
                             </input>
                         </div>
                     </div>
@@ -75,8 +85,10 @@ class Profile extends React.Component{
                             <input className="form-control"
                                    type="tel"
                                    placeholder="1-(555)-555-5555"
+                                   value={this.state.phoneNumber}
+                                   onChange={this.phoneTitleChanged}
                                    id="phone-profile">
-                                {this.user.phoneNumber}
+
                             </input>
                         </div>
                     </div>
@@ -88,8 +100,10 @@ class Profile extends React.Component{
                         </label>
                         <div className="col-sm-10">
                             <input className="form-control"
-                                   id="first-name-profile">
-                                {this.user.firstName}
+                                   id="first-name-profile"
+                                   onChange={this.firstNameTitleChanged}
+                                    value={this.state.firstName}>
+
                             </input>
                         </div>
                     </div>
@@ -101,8 +115,10 @@ class Profile extends React.Component{
                         </label>
                         <div className="col-sm-10">
                             <input className="form-control"
-                                   id="last-name-profile">
-                                {this.user.lastName}
+                                   id="last-name-profile"
+                                   onChange={this.lastNameTitleChanged}
+                                    value={this.state.lastName}>
+
                             </input>
                         </div>
                     </div>

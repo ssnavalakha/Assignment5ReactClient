@@ -14,20 +14,42 @@ class WhiteBoard extends Component {
     super();
     this.courseService = new CourseService();
     this.state = {
-      courses: this.courseService.findAllCourses(),
+      courses:[],
       newcoursename: {title: ''}
     }
     this.titleChanged = this.titleChanged.bind(this);
     this.createCourse=this.createCourse.bind(this);
   }
+  getcourses = ()=>{
+    this.courseService.findAllCourses()
+        .then(res=>{
+          this.setState({
+            courses:res
+          })
+        })
+  };
   deleteCourse = course =>
-    this.setState({
-      courses: this.courseService.deleteCourse(course)
-    });
+    {
+      this.courseService.deleteCourse(course).then(()=>
+      {
+        var currentCourses = this.state.courses;
+        currentCourses=currentCourses.filter((val)=>{
+          return val.id!==course.id
+        });
+        this.setState({
+          courses:currentCourses
+      })
+      });
+    };
   addCourse = (course) =>
-    this.setState({
-      courses: this.courseService.addCourse(course)
-    });
+  {   this.courseService.addCourse(course).then(crs=> {
+      var currentCourses = this.state.courses;
+      currentCourses.push(crs);
+      this.setState({
+        courses:currentCourses
+      })
+    })
+  };
   createCourse = () =>
   {
     var name=this.state.newcoursename.title;
@@ -72,6 +94,7 @@ class WhiteBoard extends Component {
                          courses={this.state.courses}
                          titleChanged={this.titleChanged}
                          createCourse={this.createCourse}
+                         getcourses={this.getcourses}
                          {...props}/>}/>
             <Route path="/course/:id"
                    exact
@@ -79,6 +102,7 @@ class WhiteBoard extends Component {
             <Route path='/table/:id'
                    render={(props) => <CourseTable
                        courses={this.state.courses}
+                       getcourses={this.getcourses}
                        deleteCourse={this.deleteCourse}
                        addCourseUsingName={this.createCourse}
                        titleChanged={this.titleChanged}
