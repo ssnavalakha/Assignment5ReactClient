@@ -2,14 +2,14 @@ import React from 'react'
 import WidgetComponent from './WidgetComponent'
 
 
-const WidgetList = ({widgets, addWidget, deleteWidget, updateWidget,preview,changePreview}) =>
+const WidgetList = ({widgets, addWidget, deleteWidget, updateWidget,preview,changePreview,saveWidgets}) =>
 
     <div>
         <h1>Widget List {widgets.length}</h1>
         <div className="row">
             <div className="col-9"/>
             <div className="row float-right col-3">
-                <button type="button" className="btn btn-success mx-2 my-2">Save</button>
+                <button type="button" onClick={saveWidgets} className="btn btn-success mx-2 my-2">Save</button>
                 <div className="mx-2 my-2">Preview</div>
                 <label className="switch">
                     <input onClick={(event) => {

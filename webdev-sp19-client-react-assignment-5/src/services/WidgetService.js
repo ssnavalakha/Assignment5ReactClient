@@ -25,15 +25,16 @@ class WidgetService {
                                         {
                                             for (let m=0; m<this.courses[i].modules[j].lessons[k].topics[l].widgets.length; m++)
                                             {
-                                                let o=this.courses[i].modules[j].lessons[k].topics[l].widgets[m];
+                                                let o=this.courses[i].modules[j].lessons[k].topics[l].widgets[m].widget;
                                                 widgets.push({
                                                     topicId:this.courses[i].modules[j].lessons[k].topics[l].id,
                                                     widget:{
                                                         id:o.id,
+                                                        topicId:this.courses[i].modules[j].lessons[k].topics[l].id,
                                                         type: o.type,
                                                         size: o.size,
                                                         text: o.text,
-                                                        items: o.items==null?[]:o.items.split(','),
+                                                        items: o.items==null?[]:o.items,
                                                         src: o.src,
                                                         href: o.href,
                                                         title:o.title,
