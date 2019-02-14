@@ -1,6 +1,6 @@
-import CourseService from "../services/CourseService";
+import WidgetService from "../services/WidgetService";
 
-const service=new CourseService();
+const service=new WidgetService();
 const comparator =(a,b)=>{
     return a.widget.position-b.widget.position;
 };

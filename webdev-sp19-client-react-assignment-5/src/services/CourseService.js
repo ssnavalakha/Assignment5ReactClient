@@ -49,25 +49,6 @@ class CourseService {
     this.widgets=widgets;
   }
 
-  deleteModule = (deleteModule,modules) =>{
-    modules = modules.filter(
-        module => module.id !== deleteModule.id
-    );
-    return modules
-  };
-
-  deleteLesson = (deleteLesson,lessons) =>{
-    lessons = lessons.filter(
-        lesson => lesson.id !== deleteLesson.id
-    );
-    return lessons
-  };
-  deleteTopic = (deletetopic,topics) =>{
-    topics = topics.filter(
-        topic => topic.id !== deletetopic.id
-    );
-    return topics
-  };
 
   addCourse = course => {
     return fetch(this.COURSE_API_URL+"api/courses", {
@@ -83,7 +64,7 @@ class CourseService {
   {
     return fetch(this.COURSE_API_URL+"api/courses/"+courseId)
         .then(response =>
-        response.json());
+            response.json());
 
   };
   findAllCourses = () =>
@@ -98,7 +79,7 @@ class CourseService {
     {
       return fetch(this.COURSE_API_URL+"api/courses/"+deleteCourse.id,{
         method:'DELETE'
-      }).then((res) => res.json());
+      })
     };
 
   findWidgets= topicId =>{
