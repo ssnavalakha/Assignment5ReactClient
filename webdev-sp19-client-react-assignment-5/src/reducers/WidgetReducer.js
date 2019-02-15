@@ -1,15 +1,53 @@
-import CourseService from "../services/CourseService";
+import WidgetService from "../services/WidgetService";
+import TopicService from "../services/TopicService";
+import LessonService from "../services/LessonService";
 
-const service=new CourseService();
-const comparator =(a,b)=>{
+const getWidgetService=()=>new WidgetService();
+const getTopicService=()=>new TopicService();
+const getLessonService=()=>new LessonService();
+let service=null;
+let topicService=null;
+let lessonService=null;
+let comparator =(a,b)=>{
     return a.widget.position-b.widget.position;
 };
 const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => {
+    if(service==null)
+    {
+        service=getWidgetService();
+        topicService=getTopicService();
+        lessonService=getLessonService();
+    }
     switch(action.type) {
         case 'DELETE_WIDGET':
             service.deleteWidget(action.widget.id);
             return {
                 widgets: service.widgets.filter(wid=>wid.topicId===action.topicId),
+                topicId: state.topicId,
+                preview: state.preview
+            };
+        case 'DELETE_ALL_WIDGETS_FOR_TOPIC':
+            return{
+                topicId:state.topicId,
+                preview:state.preview,
+                widgets:service.deleteAllWidgetsForTopic(action.topicId)
+            };
+        case 'SAVE_WIDGETS':
+            topicService.findTopicById(state.topicId).then((t)=>{
+                var currentTopic=t;
+                currentTopic.widgets=state.widgets;
+                var currentLesson=lessonService.findLessonById(currentTopic.lessonId)
+                    .then((lesson)=>{
+                        var lessonTopics=lesson.topics.filter(x=>x.id!==state.topicId);
+                        lessonTopics.push(currentTopic);
+                        lesson.topics=lessonTopics;
+                        topicService.updateTopic(state.topicId,lesson)
+                            .then((resp)=>resp);
+                    })
+            });
+
+            return{
+                widgets: state.widgets,
                 topicId: state.topicId,
                 preview: state.preview
             };

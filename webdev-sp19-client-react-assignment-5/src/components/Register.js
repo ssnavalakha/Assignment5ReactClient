@@ -1,5 +1,6 @@
 import React from 'react'
 import UserService from "../services/UserService";
+import Link from "react-router-dom/Link";
 
 class Register extends React.Component{
 constructor(props)
@@ -152,10 +153,18 @@ render(){
             <div className="row">
                 <div className="col-md-2 col-lg-2 col-sm-2 hidden-xs"></div>
                 <div className="col-md-5 col-lg-5 col-sm-5 col-6">
-                    <a href="../login/login.template.client.html">Login</a>
+                    <a href="#" onClick={()=>this.userService.register({
+                        id:(new Date()).getTime(),
+                        username:this.state.username,
+                        password:this.state.password,
+                        firstName:this.state.firstName,
+                        lastName:this.state.lastName,
+                        phoneNumber:this.state.phoneNumber,
+                        role:"Faculty"
+                    })}>Login</a>
                 </div>
                 <div className="col-md-5 col-lg-5 col-sm-5 col-6">
-                    <a href="../index.html" className="float-right">Cancel</a>
+                    <Link to="/"className="float-right">Cancel</Link>
                 </div>
             </div>
         </div>

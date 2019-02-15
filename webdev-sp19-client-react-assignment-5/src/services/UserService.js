@@ -5,7 +5,7 @@ class UserService{
     constructor(props)
     {
         this.props=props;
-        this.USER_API_URL ='http://localhost:8080/';
+        this.USER_API_URL ='https://dry-coast-78857.herokuapp.com/';
     }
     redirectToCourses(id) {
         return this.props.history.push(`/table/${id}`)
@@ -28,6 +28,7 @@ class UserService{
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json' },
+            credentials: 'include',
             method: 'POST'
         }).then((res) => res.text())
             .then((text) => text.length ? JSON.parse(text) : {})
@@ -39,7 +40,8 @@ class UserService{
 
      profile = () =>
         fetch(this.USER_API_URL+"api/profile", {
-            method: 'POST',
+            method: 'GET',
+            credentials: 'include',
         }).then(response =>
             response.json());
 
@@ -48,6 +50,7 @@ class UserService{
             body: JSON.stringify(user),
             headers: {
                 'Content-Type': 'application/json' },
+            credentials: 'include',
             method: 'POST'
         }).then((res) => res.text())
             .then((text) => text.length ? JSON.parse(text) : {})
@@ -59,7 +62,8 @@ class UserService{
 
      logout = () =>
         fetch(this.USER_API_URL+"api/logout", {
-            method: 'POST'
+            method: 'POST',
+            credentials: 'include',
         }).then((res) => res.text())
             .then((text) => text.length ? JSON.parse(text) : {})
             .then(()=>this.redirectToLogin())
