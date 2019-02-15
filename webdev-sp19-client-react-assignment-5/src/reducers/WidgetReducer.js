@@ -26,6 +26,12 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
                 topicId: state.topicId,
                 preview: state.preview
             };
+        case 'DELETE_ALL_WIDGETS_FOR_TOPIC':
+            return{
+                topicId:state.topicId,
+                preview:state.preview,
+                widgets:service.deleteAllWidgetsForTopic(action.topicId)
+            };
         case 'SAVE_WIDGETS':
             topicService.findTopicById(state.topicId).then((t)=>{
                 var currentTopic=t;

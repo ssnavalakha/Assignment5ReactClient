@@ -3,7 +3,7 @@ import CourseService from "./CourseService";
 class LessonService{
     constructor()
     {
-        this.LESSON_API_URL='http://localhost:8080/';
+        this.LESSON_API_URL='https://dry-coast-78857.herokuapp.com/';
     }
     createLesson(mid,lesson)
     {

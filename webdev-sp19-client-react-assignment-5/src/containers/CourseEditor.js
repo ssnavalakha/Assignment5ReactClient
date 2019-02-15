@@ -29,7 +29,7 @@ class CourseEditor extends React.Component {
                       lessons: course.modules[0].lessons!=null?course.modules[0].lessons:[]},
 
                   lesson:(course.modules!=null)&&(course.modules.length!==0)&&
-                  (course.modules[0].lessons!=null)
+                  (course.modules[0].lessons!=null) && (course.modules[0].lessons.length!==0)
                       ?
                       {id:course.modules[0].lessons[0].id,
                           title:course.modules[0].lessons[0].title,
@@ -38,7 +38,7 @@ class CourseEditor extends React.Component {
                           topics:[]},
 
                   topic:(course.modules!=null)&&(course.modules.length!==0)&&
-                  (course.modules[0].lessons!=null)
+                  (course.modules[0].lessons!=null) && (course.modules[0].lessons.length!==0)
                   && (course.modules[0].lessons[0].topics!=null)
                       ?course.modules[0].lessons[0].topics[0]:{title:""},
                   monitorButtonDisabilityLesson: [{
@@ -61,11 +61,14 @@ class CourseEditor extends React.Component {
                   newlyAddedTopic:{title:''},
                   newlyAddedLesson:{title:''}
               },(prevstate)=>{
-                  var topicState = this.state.topic.id;
-                  this.store.dispatch({
-                      type: 'FIND_ALL_WIDGETS_FOR_TOPIC',
-                      topicId: this.state.topic.id
-                  });
+                  if(this.state.topic!=null) {
+                      var topicState = this.state.topic.id;
+
+                      this.store.dispatch({
+                          type: 'FIND_ALL_WIDGETS_FOR_TOPIC',
+                          topicId: this.state.topic.id
+                      });
+                  }
               });
           })
   };
@@ -389,6 +392,10 @@ class CourseEditor extends React.Component {
   deleteTopic = (topic) => {
     this.topicService.deleteTopic(topic.id)
         .then(()=>{
+            this.store.dispatch({
+                type: 'DELETE_ALL_WIDGETS_FOR_TOPIC',
+                topicId: this.state.topic.id
+            });
           var newLesson={id: this.state.lesson.id,
             title: this.state.lesson.title,
             topics: this.state.lesson.topics.filter(x=>x.id!=topic.id)}

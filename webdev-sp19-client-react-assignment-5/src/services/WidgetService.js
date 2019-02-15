@@ -79,6 +79,10 @@ class WidgetService {
     };
     deleteWidget = (widgetId) =>{
         this.widgets=this.widgets.filter(wid=>wid.widget.id!==widgetId)
+    };
+    deleteAllWidgetsForTopic = (topicId) =>{
+        this.widgets=this.widgets.filter(wid=>wid.topicId!==topicId)
+        return this.widgets;
     }
 
 }

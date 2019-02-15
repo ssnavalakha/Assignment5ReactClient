@@ -63,7 +63,8 @@ class WhiteBoard extends Component {
   {
     var course = {
         id: (new Date()).getTime(),
-        title: name
+        title: name,
+        modules:[]
       };
       this.addCourse(course);
   };
