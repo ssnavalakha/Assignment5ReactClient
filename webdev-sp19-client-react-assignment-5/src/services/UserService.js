@@ -5,7 +5,7 @@ class UserService{
     constructor(props)
     {
         this.props=props;
-        this.USER_API_URL ='https://dry-coast-78857.herokuapp.com/';
+        this.USER_API_URL ='http://localhost:8080/';
     }
     redirectToCourses(id) {
         return this.props.history.push(`/table/${id}`)

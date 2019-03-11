@@ -22,7 +22,7 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
         case 'DELETE_WIDGET':
             service.deleteWidget(action.widget.id);
             return {
-                widgets: service.widgets.filter(wid=>wid.topicId===action.topicId),
+                widgets: service.widgets.filter(wid=>wid.topicId===state.topicId),
                 topicId: state.topicId,
                 preview: state.preview
             };
