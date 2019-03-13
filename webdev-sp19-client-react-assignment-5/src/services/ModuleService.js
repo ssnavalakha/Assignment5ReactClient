@@ -3,7 +3,7 @@ import CourseService from "./CourseService";
 class ModuleService{
     constructor()
     {
-        this.MODULE_API_URL='https://dry-coast-78857.herokuapp.com/';
+        this.MODULE_API_URL='http://localhost:8080/';
     }
     createModule(cid,module)
     {
