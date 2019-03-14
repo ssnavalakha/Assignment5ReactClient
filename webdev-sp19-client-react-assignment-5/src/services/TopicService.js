@@ -43,6 +43,16 @@ class TopicService{
             method:'DELETE'
         })
     }
+    findWidgetsForTopicId(topicId)
+    {
+        return fetch(this.TOPIC_API_URL+'/api/topic/'+topicId+'/widget')
+            .then(response=>response.json());
+    }
+    findAllWidgets()
+    {
+        return fetch(this.TOPIC_API_URL+'/api/topic/widgets')
+            .then(response=>response.json());
+    }
 }
 
 export default TopicService

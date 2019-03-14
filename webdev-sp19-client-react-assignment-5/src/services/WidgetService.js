@@ -1,57 +1,42 @@
 import CourseService from "./CourseService";
+import TopicService from "./TopicService";
 
 class WidgetService {
     constructor() {
-        this.courseService=new CourseService()
+        this.courseService=new CourseService();
         this.courses = {};
         this.widgets=[];
+        this.topicService=new TopicService();
         this.courseService.findAllCourses()
             .then((courses)=>{
                 var widgets=[];
                 this.courses=courses;
-                for (let i=0; i<this.courses.length; i++)
-                {
-                    for (let j=0; j<this.courses[i].modules.length; j++)
-                    {
-                        if(this.courses[i].modules[j].lessons!=null)
+                this.topicService.findAllWidgets()
+                    .then(swidgets=>{
+                        for (let m=0; m<swidgets.length; m++)
                         {
-                            for (let k=0; k<this.courses[i].modules[j].lessons.length; k++)
-                            {
-                                if (this.courses[i].modules[j].lessons[k].topics!=null)
-                                {
-                                    for(let l=0; l<this.courses[i].modules[j].lessons[k].topics.length; l++)
-                                    {
-                                        if(this.courses[i].modules[j].lessons[k].topics[l].widgets!=null)
-                                        {
-                                            for (let m=0; m<this.courses[i].modules[j].lessons[k].topics[l].widgets.length; m++)
-                                            {
-                                                let o=this.courses[i].modules[j].lessons[k].topics[l].widgets[m];
-                                                widgets.push({
-                                                    topicId:this.courses[i].modules[j].lessons[k].topics[l].id,
-                                                    widget:{
-                                                        id:o.id,
-                                                        topicId:this.courses[i].modules[j].lessons[k].topics[l].id,
-                                                        type: o.type,
-                                                        size: o.size,
-                                                        text: o.text,
-                                                        items: o.items==null?[]:o.items.split(','),
-                                                        src: o.src,
-                                                        href: o.href,
-                                                        title:o.title,
-                                                        ddType:o.ddType,
-                                                        position:m,
-                                                        up:0,
-                                                        down:0
-                                                    }
-                                                })
-                                            }
-                                        }
-                                    }
+                            let o=swidgets[m];
+                            widgets.push({
+                                topicId:o.topicId,
+                                widget:{
+                                    id:o.id,
+                                    topicId:o.topicId,
+                                    type: o.type,
+                                    size: o.size,
+                                    text: o.text,
+                                    items: o.items==null?[]:o.items.split(','),
+                                    src: o.src,
+                                    href: o.href,
+                                    title:o.title,
+                                    ddType:o.ddType,
+                                    dtype:o.dtype,
+                                    position:o.position,
+                                    up:o.up,
+                                    down:o.down
                                 }
-                            }
+                            })
                         }
-                    }
-                }
+                    });
                 this.widgets=widgets;
             });
     }
