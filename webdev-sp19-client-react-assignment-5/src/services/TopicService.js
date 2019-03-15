@@ -46,13 +46,18 @@ class TopicService{
     findWidgetsForTopicId(topicId)
     {
         return fetch(this.TOPIC_API_URL+'/api/topic/'+topicId+'/widget')
-            .then(response=>response.json());
+            .then(response =>
+                response.json());
     }
-    findAllWidgets()
+    findAllWidgets = () =>
     {
-        return fetch(this.TOPIC_API_URL+'/api/topic/widgets')
-            .then(response=>response.json());
-    }
+        return fetch(this.TOPIC_API_URL+'/api/topic/widgets',{
+            credentials: 'include'
+        }).then(response =>
+            response.json());
+
+    };
+
 }
 
 export default TopicService
