@@ -22,7 +22,7 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
         case 'DELETE_WIDGET':
             service.deleteWidget(action.widget.id);
             return {
-                widgets: service.widgets.filter(wid=>wid.topicId===action.topicId),
+                widgets: service.widgets.filter(wid=>wid.topicId===state.topicId),
                 topicId: state.topicId,
                 preview: state.preview
             };
@@ -33,19 +33,7 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
                 widgets:service.deleteAllWidgetsForTopic(action.topicId)
             };
         case 'SAVE_WIDGETS':
-            topicService.findTopicById(state.topicId).then((t)=>{
-                var currentTopic=t;
-                currentTopic.widgets=state.widgets;
-                var currentLesson=lessonService.findLessonById(currentTopic.lessonId)
-                    .then((lesson)=>{
-                        var lessonTopics=lesson.topics.filter(x=>x.id!==state.topicId);
-                        lessonTopics.push(currentTopic);
-                        lesson.topics=lessonTopics;
-                        topicService.updateTopic(state.topicId,lesson)
-                            .then((resp)=>resp);
-                    })
-            });
-
+            service.saveAllWidgets();
             return{
                 widgets: state.widgets,
                 topicId: state.topicId,
@@ -58,10 +46,10 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
                 text: '',
                 size: 1,
                 items:[],
-                src: undefined,
-                href: undefined,
-                title:undefined,
-                ddType:undefined,
+                src: "",
+                href: "",
+                title:"",
+                ddType:0,
                 position:state.widgets.length,
                 up:0,
                 down:0
@@ -76,6 +64,7 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
                 preview: state.preview
             };
         case 'FIND_ALL_WIDGETS_FOR_TOPIC':
+            service.widgets.sort(comparator);
             return{
                 widgets: service.widgets.filter(wid=>wid.topicId===action.topicId),
                 topicId: action.topicId,
@@ -89,6 +78,7 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
                 preview: state.preview
             };
         case 'FIND_ALL_WIDGETS':
+            service.widgets.sort(comparator);
             return{
               topicId:action.topicId,
               widgets:service.widgets,
@@ -106,7 +96,7 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
             var newWidgetList=state.widgets.map(widget =>
                 widget.id === action.widget.id ? action.widget : widget);
             for (var i=0;i<newWidgetList.length-1;i++) {
-                if (newWidgetList[i].widget.position === newWidgetList[i + 1].widget.position) ;
+                if (newWidgetList[i].widget.position === newWidgetList[i + 1].widget.position)
                     if(newWidgetList[i].widget.down>newWidgetList[i+1].widget.down)
                     {
                         newWidgetList[i + 1].widget.position=newWidgetList[i + 1].widget.position-1;
@@ -114,14 +104,20 @@ const WidgetReducer = (state = {topicId:0,widgets:[],preview:false}, action) => 
                     }
             }
             for (var i=1;i<newWidgetList.length;i++) {
-                if(newWidgetList[i].widget.up>newWidgetList[i-1].widget.up)
-                {
-                    newWidgetList[i - 1].widget.position=newWidgetList[i - 1].widget.position+1;
-                    newWidgetList[i].widget.up=0;
-                }
+                if (newWidgetList[i].widget.position === newWidgetList[i - 1].widget.position)
+                    if(newWidgetList[i].widget.up>newWidgetList[i-1].widget.up)
+                    {
+                        newWidgetList[i - 1].widget.position=newWidgetList[i - 1].widget.position+1;
+                        newWidgetList[i].widget.up=0;
+                    }
             }
             newWidgetList.sort(comparator);
-
+            var temp=service.widgets.filter(x=>x.topicId!==state.topicId);
+            for (var h=0;h<newWidgetList.length;h++)
+            {
+                temp.push(newWidgetList[h]);
+            }
+            service.widgets=temp;
             return {
                 widgets: newWidgetList.filter(wid=>wid.topicId===state.topicId),
                 topicId: state.topicId,

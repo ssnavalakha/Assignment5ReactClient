@@ -52,6 +52,7 @@ const WidgetComponent = ({widget, deleteWidget, updateWidget,length,preview}) =>
                             <select
                                 onChange={(event) => {
                                     widget.type = event.target.value;
+                                    widget.dtype=event.target.value;
                                     updateWidget(widget)
                                 }}
                                 className="float-right">
