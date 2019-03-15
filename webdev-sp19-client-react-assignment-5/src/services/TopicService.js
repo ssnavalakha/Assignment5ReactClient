@@ -3,7 +3,7 @@ import CourseService from "./CourseService";
 class TopicService{
     constructor()
     {
-        this.TOPIC_API_URL='http://localhost:8080/';
+        this.TOPIC_API_URL='https://dry-coast-78857.herokuapp.com/';
     }
     createTopic(lid,topic)
     {

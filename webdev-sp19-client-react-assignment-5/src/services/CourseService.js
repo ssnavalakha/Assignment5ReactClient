@@ -1,6 +1,6 @@
 class CourseService {
   constructor() {
-    this.COURSE_API_URL ='http://localhost:8080/';
+    this.COURSE_API_URL ='https://dry-coast-78857.herokuapp.com/';
   }
 
 

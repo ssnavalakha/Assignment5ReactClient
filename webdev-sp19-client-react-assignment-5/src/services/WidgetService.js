@@ -3,7 +3,7 @@ import CourseService from "./CourseService"
 
 class WidgetService {
     constructor() {
-        this.WIDGET_API_URL='http://localhost:8080/';
+        this.WIDGET_API_URL='https://dry-coast-78857.herokuapp.com/';
         this.widgets=[];
         this.widgetsToBeDeleted=[];
         this.newlyCreatedWidgets=[];
